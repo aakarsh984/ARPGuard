@@ -1,9 +1,9 @@
-#include <iostream>
+#include "../include/sniffer.h"
 
-int main() {
-    std::cout << "========================================" << std::endl;
-    std::cout << "  ARP Poisoning Detector Toolchain Ready " << std::endl;
-    std::cout << "========================================" << std::endl;
+int main()
+{
+    PacketSniffer sniffer;
+    sniffer.listInterfaces();
+    sniffer.startCapture("eth0");
     return 0;
 }
-
