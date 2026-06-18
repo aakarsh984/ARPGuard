@@ -6,7 +6,7 @@ void packetHandler(
     const struct pcap_pkthdr* header,
     const u_char* packet)
 {
-    std::cout << "Packet Received | Length: "
+    std::cout <<" ARP Packet Received | Length: "
               << header->len
               << std::endl;
 }
@@ -45,6 +45,9 @@ void PacketSniffer::startCapture(const char* interfaceName)
 {
     char errbuf[PCAP_ERRBUF_SIZE];
 
+
+
+
     pcap_t* handle = pcap_open_live(
         interfaceName,
         BUFSIZ,
@@ -64,6 +67,19 @@ void PacketSniffer::startCapture(const char* interfaceName)
               << interfaceName
               << "...\n"
               << std::endl;
+struct bpf_program fp;
+
+if (pcap_compile(handle, &fp, "arp", 0, PCAP_NETMASK_UNKNOWN) == -1)
+{
+    std::cerr << "Could not compile filter" << std::endl;
+    return;
+}
+
+if (pcap_setfilter(handle, &fp) == -1)
+{
+    std::cerr << "Could not set filter" << std::endl;
+    return;
+}
 
     pcap_loop(handle, 0, packetHandler, nullptr);
 
