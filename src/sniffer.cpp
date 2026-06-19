@@ -1,15 +1,16 @@
+#include "../include/parser.h"
 #include "../include/sniffer.h"
 #include <pcap.h>
 #include <iostream>
-void packetHandler(
-    u_char* user,
-    const struct pcap_pkthdr* header,
-    const u_char* packet)
-{
-    std::cout <<" ARP Packet Received | Length: "
-              << header->len
-              << std::endl;
-}
+#include <arpa/inet.h>
+#include <cstdint>
+#include <sstream>
+#include <iomanip>
+
+
+void packetHandler( u_char* user,const struct pcap_pkthdr* header,const u_char* packet){
+Parser::parseArpPacket(packet);
+}//function end
 
 void PacketSniffer::listInterfaces()
 {

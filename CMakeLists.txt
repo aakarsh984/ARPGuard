@@ -11,6 +11,7 @@ add_executable(
     arpguard
     src/main.cpp
     src/sniffer.cpp
+    src/parser.cpp
 )
 
 target_include_directories(

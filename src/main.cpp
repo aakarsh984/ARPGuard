@@ -4,6 +4,6 @@ int main()
 {
     PacketSniffer sniffer;
     sniffer.listInterfaces();
-    sniffer.startCapture("eth0");
+    sniffer.startCapture("eth1");
     return 0;
 }
