@@ -4,6 +4,7 @@
 #include <string>
 #include <cstdint>
 
+#pragma pack(push, 1)
 struct ArpHeader
 {
     uint16_t hardwareType;
@@ -11,13 +12,12 @@ struct ArpHeader
     uint8_t hardwareSize;
     uint8_t protocolSize;
     uint16_t opcode;
-
     uint8_t senderMac[6];
     uint8_t senderIP[4];
-
     uint8_t targetMac[6];
     uint8_t targetIP[4];
 };
+#pragma pack(pop)
 
 class Parser
 {

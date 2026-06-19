@@ -70,7 +70,7 @@ void PacketSniffer::startCapture(const char* interfaceName)
               << std::endl;
 struct bpf_program fp;
 
-if (pcap_compile(handle, &fp, "arp", 0, PCAP_NETMASK_UNKNOWN) == -1)
+if (pcap_compile(handle, &fp, "arp", 1, PCAP_NETMASK_UNKNOWN) == -1)
 {
     std::cerr << "Could not compile filter" << std::endl;
     return;
@@ -81,9 +81,8 @@ if (pcap_setfilter(handle, &fp) == -1)
     std::cerr << "Could not set filter" << std::endl;
     return;
 }
-
-    pcap_loop(handle, 0, packetHandler, nullptr);
-
+pcap_freecode(&fp); 
+    pcap_loop(handle, -1, packetHandler, nullptr);
     pcap_close(handle);
 }
 
