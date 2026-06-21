@@ -9,7 +9,8 @@
 
 
 void packetHandler( u_char* user,const struct pcap_pkthdr* header,const u_char* packet){
-Parser::parseArpPacket(packet);
+		ArpInfo info = Parser::parseArpPacket(packet);
+		
 }//function end
 
 void PacketSniffer::listInterfaces()

@@ -31,11 +31,13 @@ std::string Parser::ipToString(const uint8_t ip[4])
            std::to_string(ip[3]);
 }
 
-void Parser::parseArpPacket(const u_char* packet)
+
+
+ArpInfo Parser::parseArpPacket(const u_char* packet)
 {
     const ArpHeader* arp =
         reinterpret_cast<const ArpHeader*>(packet + 14);
-
+	ArpInfo info;
     uint16_t opcode = ntohs(arp->opcode);
 
     std::cout << "\n================================\n";
@@ -70,4 +72,12 @@ void Parser::parseArpPacket(const u_char* packet)
     std::cout << "Target MAC : "
               << macToString(arp->targetMac)
               << std::endl;
+
+  info.opcode    = ntohs(arp->opcode);
+    info.senderIP  = ipToString(arp->senderIP);
+    info.senderMAC = macToString(arp->senderMac);
+    info.targetIP  = ipToString(arp->targetIP);
+    info.targetMAC = macToString(arp->targetMac);
+    return info;
+
 }
