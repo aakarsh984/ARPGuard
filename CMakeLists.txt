@@ -12,6 +12,7 @@ add_executable(
     src/main.cpp
     src/sniffer.cpp
     src/parser.cpp
+    src/arptable.cpp
 )
 
 target_include_directories(

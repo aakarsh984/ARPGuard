@@ -1,4 +1,5 @@
 #include "../include/parser.h"
+#include "../include/arptable.h"
 #include "../include/sniffer.h"
 #include <pcap.h>
 #include <iostream>
@@ -7,10 +8,13 @@
 #include <sstream>
 #include <iomanip>
 
-
+static ARPTable arpTable;
 void packetHandler( u_char* user,const struct pcap_pkthdr* header,const u_char* packet){
 		ArpInfo info = Parser::parseArpPacket(packet);
-		
+
+		if(info.opcode == 2){
+    		   arpTable.updateEntry(info.senderIP,info.senderMAC);
+			}
 }//function end
 
 void PacketSniffer::listInterfaces()
