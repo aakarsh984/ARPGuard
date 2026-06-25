@@ -5,6 +5,7 @@
 #include <arpa/inet.h>
 #include <pcap.h>
 
+constexpr bool DEBUG_MODE = false;
 std::string Parser::macToString(const uint8_t mac[6])
 {
     std::stringstream ss;
@@ -39,7 +40,8 @@ ArpInfo Parser::parseArpPacket(const u_char* packet)
         reinterpret_cast<const ArpHeader*>(packet + 14);
 	ArpInfo info;
     uint16_t opcode = ntohs(arp->opcode);
-
+if(DEBUG_MODE)
+{
     std::cout << "\n================================\n";
 
     if(opcode == 1)
@@ -72,7 +74,7 @@ ArpInfo Parser::parseArpPacket(const u_char* packet)
     std::cout << "Target MAC : "
               << macToString(arp->targetMac)
               << std::endl;
-
+}
   info.opcode    = ntohs(arp->opcode);
     info.senderIP  = ipToString(arp->senderIP);
     info.senderMAC = macToString(arp->senderMac);

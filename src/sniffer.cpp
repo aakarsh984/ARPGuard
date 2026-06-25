@@ -1,3 +1,5 @@
+#include "../include/detector.h"
+#include "../include/gatewaytracker.h"
 #include "../include/parser.h"
 #include "../include/arptable.h"
 #include "../include/sniffer.h"
@@ -8,13 +10,77 @@
 #include <sstream>
 #include <iomanip>
 
+static Detector detector;
 static ARPTable arpTable;
 void packetHandler( u_char* user,const struct pcap_pkthdr* header,const u_char* packet){
 		ArpInfo info = Parser::parseArpPacket(packet);
+		
+		  // Detection 2
+    if(Detector::isGratuitousArp(
+        info.senderIP,
+        info.targetIP,
+        info.opcode))
+    {
+        std::cout
+            << "\n[WARNING] Gratuitous ARP Detected from "
+            << info.senderIP
+            << " (" << info.senderMAC << ")"
+            << std::endl;
+    }
 
-		if(info.opcode == 2){
-    		   arpTable.updateEntry(info.senderIP,info.senderMAC);
-			}
+    // Detection 3
+    if(Detector::isBroadcastMac(
+        info.senderMAC))
+    {
+        std::cout
+            << "\n[WARNING] Broadcast MAC Used As Sender"
+            << std::endl;
+    }
+
+    // Only learn from ARP replies
+    if(info.opcode == 2)
+    {
+        arpTable.updateEntry(
+            info.senderIP,
+            info.senderMAC
+        );
+
+        // Detection 4
+        if(Detector::detectMultipleIpsPerMac(
+            info.senderIP,
+            info.senderMAC))
+        {
+            std::cout
+                << "\n[WARNING]"
+                << "\nMAC Claiming Multiple IPs"
+                << "\nMAC : "
+                << info.senderMAC
+                << std::endl;
+        }
+
+        // Gateway learning
+        GatewayTracker::learnGatewayMac(
+            info.senderIP,
+            info.senderMAC
+        );
+
+        // Detection 5
+        if(GatewayTracker::detectGatewayMacChange(
+            info.senderIP,
+            info.senderMAC))
+        {
+            std::cout
+                << "\n[CRITICAL]"
+                << "\nGateway MAC Changed!"
+                << "\nGateway IP : "
+                << info.senderIP
+                << "\nKnown MAC  : "
+                << GatewayTracker::getGatewayMAC()
+                << "\nCurrent MAC: "
+                << info.senderMAC
+                << std::endl;
+        }
+    }
 }//function end
 
 void PacketSniffer::listInterfaces()

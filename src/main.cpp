@@ -1,4 +1,5 @@
 #include "../include/sniffer.h"
+#include "../include/gatewaytracker.h"
 #include <unistd.h>
 #include<iostream>
 int main(int argc, char* argv[])
@@ -12,6 +13,13 @@ int main(int argc, char* argv[])
         std::cerr << "Example: sudo ./arpguard eth1" << std::endl;
         return 1;
     }
+
+
+
+//remeber to change it
+GatewayTracker::setGatewayIP(
+    "10.101.181.207"
+);
     PacketSniffer sniffer;
     sniffer.listInterfaces();
     sniffer.startCapture(argv[1]);

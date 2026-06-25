@@ -32,7 +32,6 @@ bool ARPTable::updateEntry(const std::string& ip, const std::string& mac)
             << "\n  New MAC : " << mac
             << std::endl;
 
-        it->second = mac;
 
         return true;
     }

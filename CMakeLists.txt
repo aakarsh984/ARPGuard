@@ -1,3 +1,4 @@
+
 cmake_minimum_required(VERSION 3.10)
 
 project(ARPGuard)
@@ -14,6 +15,7 @@ add_executable(
     src/parser.cpp
     src/arptable.cpp
 src/detector.cpp    
+   src/gatewaytracker.cpp
 )
 
 target_include_directories(
