@@ -1,3 +1,4 @@
+#include "../include/logger.h"
 #include "../include/detector.h"
 #include "../include/arptable.h"
 #include <iostream>
@@ -20,18 +21,26 @@ bool ARPTable::updateEntry(const std::string& ip, const std::string& mac)
     {
         return false;
     }
-// Detection logic moved to Detector
+// Detection logic - 1
     if(Detector::detectIpMacConflict(
             it->second,
             mac))
     {
-        std::cout
-            << "\n[ALERT] Possible ARP Poisoning Detected!"
-            << "\n  IP      : " << ip
-            << "\n  Old MAC : " << it->second
-            << "\n  New MAC : " << mac
-            << std::endl;
+      //  std::cout
+        //    << "\n[ALERT] Possible ARP Poisoning Detected!"
+          //  << "\n  IP      : " << ip
+           // << "\n  Old MAC : " << it->second
+           // << "\n  New MAC : " << mac
+           // << std::endl;
 
+
+Logger::logAlert(
+    "ALERT",
+    "IP-MAC Conflict",
+    ip,
+    it->second,
+    mac
+);
 
         return true;
     }

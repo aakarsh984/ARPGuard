@@ -1,3 +1,4 @@
+#include "../include/logger.h"
 #include "../include/detector.h"
 #include "../include/gatewaytracker.h"
 #include "../include/parser.h"
@@ -21,20 +22,38 @@ void packetHandler( u_char* user,const struct pcap_pkthdr* header,const u_char* 
         info.targetIP,
         info.opcode))
     {
-        std::cout
-            << "\n[WARNING] Gratuitous ARP Detected from "
-            << info.senderIP
-            << " (" << info.senderMAC << ")"
-            << std::endl;
+   	//     std::cout
+          //  << "\n[WARNING] Gratuitous ARP Detected from "
+           // << info.senderIP
+           // << " (" << info.senderMAC << ")"
+           // << std::endl;
+	
+		Logger::logAlert(
+    "INFO",
+    "Gratuitous ARP",
+    info.senderIP,
+    "-",
+    info.senderMAC
+);
+
+
     }
 
     // Detection 3
     if(Detector::isBroadcastMac(
         info.senderMAC))
     {
-        std::cout
-            << "\n[WARNING] Broadcast MAC Used As Sender"
-            << std::endl;
+       // std::cout
+         //   << "\n[WARNING] Broadcast MAC Used As Sender"
+           // << std::endl;
+	Logger::logAlert(
+    "WARNING",
+    "Broadcast Sender MAC",
+    info.senderIP,
+    "-",
+    info.senderMAC
+);
+
     }
 
     // Only learn from ARP replies
@@ -50,13 +69,21 @@ void packetHandler( u_char* user,const struct pcap_pkthdr* header,const u_char* 
             info.senderIP,
             info.senderMAC))
         {
-            std::cout
-                << "\n[WARNING]"
-                << "\nMAC Claiming Multiple IPs"
-                << "\nMAC : "
-                << info.senderMAC
-                << std::endl;
-        }
+          //  std::cout
+           //     << "\n[WARNING]"
+             //   << "\nMAC Claiming Multiple IPs"
+              //  << "\nMAC : "
+               // << info.senderMAC
+              //  << std::endl;
+	   Logger::logAlert(
+    "WARNING",
+    "Multiple IPs Per MAC",
+    info.senderIP,
+    "-",
+    info.senderMAC
+); 
+
+ }
 
         // Gateway learning
         GatewayTracker::learnGatewayMac(
@@ -69,17 +96,25 @@ void packetHandler( u_char* user,const struct pcap_pkthdr* header,const u_char* 
             info.senderIP,
             info.senderMAC))
         {
-            std::cout
-                << "\n[CRITICAL]"
-                << "\nGateway MAC Changed!"
-                << "\nGateway IP : "
-                << info.senderIP
-                << "\nKnown MAC  : "
-                << GatewayTracker::getGatewayMAC()
-                << "\nCurrent MAC: "
-                << info.senderMAC
-                << std::endl;
-        }
+       //     std::cout
+         //       << "\n[CRITICAL]"
+           //     << "\nGateway MAC Changed!"
+            //    << "\nGateway IP : "
+             //   << info.senderIP
+              //  << "\nKnown MAC  : "
+               // << GatewayTracker::getGatewayMAC()
+               // << "\nCurrent MAC: "
+               // << info.senderMAC
+               // << std::endl;
+  	 Logger::logAlert(
+    "CRITICAL",
+    "Gateway MAC Changed",
+    info.senderIP,
+    GatewayTracker::getGatewayMAC(),
+    info.senderMAC
+); 
+
+ }
     }
 }//function end
 
