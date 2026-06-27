@@ -2,7 +2,6 @@
 Real-time ARP Poisoning Detection Tool in C++
 
 > Real-time ARP Poisoning Detection Tool written in C++
->>>>>>> 7c94fa2 (Update README)
 
 ARP poisoning is one of the most common attacks on local networks. An attacker sends fake ARP replies to trick devices into sending their traffic through the attacker's machine — a classic Man-in-the-Middle setup. Most people on a network have no idea it's happening.
 
@@ -27,7 +26,6 @@ Built from scratch in C++ using libpcap. No heavy frameworks, no GUI bloat — j
 * Logs all security alerts with timestamps
 * Modular architecture for future enhancements
 
-<<<<<<< HEAD
 ---
 =======
 ## How it works
