@@ -1,15 +1,11 @@
 # ARPGuard
-Real-time ARP Poisoning Detection Tool in C++
-
 > Real-time ARP Poisoning Detection Tool written in C++
 
-ARP poisoning is one of the most common attacks on local networks. An attacker sends fake ARP replies to trick devices into sending their traffic through the attacker's machine — a classic Man-in-the-Middle setup. Most people on a network have no idea it's happening.
+ARP poisoning is one of the most common attacks on local networks. An attacker sends fake ARP replies to trick devices into sending their traffic through the attacker's machine a classic Man-in-the-Middle setup. Most people on a network have no idea it's happening.
 
 ARPGuard watches your network interface in real time, builds a trusted map of who owns which IP address, and immediately alerts you the moment something looks wrong.
 
-Built from scratch in C++ using libpcap. No heavy frameworks, no GUI bloat — just a focused tool that does one thing well.
-
----
+Built from scratch in C++ using libpcap. No heavy frameworks, no GUI bloat just a focused tool that does one thing well.
 
 ---
 
@@ -27,7 +23,6 @@ Built from scratch in C++ using libpcap. No heavy frameworks, no GUI bloat — j
 * Modular architecture for future enhancements
 
 ---
-=======
 ## How it works
 
 Every ARP packet that passes through your network interface gets analyzed through a 5-stage detection pipeline:
@@ -246,11 +241,13 @@ ARPGuard should immediately fire a CRITICAL alert when the gateway MAC changes.
 ## Author
 
 **Aakarsh Gupta**
-B.Tech — Artificial Intelligence & Data Science
-Interests: Cybersecurity · Network Security · C++ · Linux
+
+B.Tech Artificial Intelligence & Data Science
+
+Cybersecurity | Network Security | C++ | Linux
 
 ---
 
-## Disclaimer
+## License
 
-This tool is built for educational purposes and authorized security testing only. Do not run it on networks you do not own or have explicit permission to test.
+This project is intended for educational and research purposes.
